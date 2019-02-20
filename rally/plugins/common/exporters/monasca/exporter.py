@@ -169,8 +169,11 @@ class MonascaExporter(exporter.TaskExporter):
                 raise exceptions.RallyException(
                     err_msg % "the dictionary key `path_in_report` is missing for dimension %s" % dimension_name)
             value = jmespath.search(path, report)
+            transform = requirement.get("transform")
+            if transform:
+                value = transform(value)
             if value:
-                dimensions[dimension_name] = jmespath.search(path, report)
+                dimensions[dimension_name] = value
             debug = requirement.get("debug")
             if debug and debug == metric_fqn:
                 if not value:

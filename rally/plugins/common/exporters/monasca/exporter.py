@@ -204,7 +204,7 @@ class MonascaExporter(exporter.TaskExporter):
         transform = metric.get("transform")
         if transform:
             value = transform(value)
-        if not value:
+        if value is None:
             raise exceptions.RallyException(
                 "The jmespath: %s, did not produce a match for metric: %s" % (
                     path, fqn))
